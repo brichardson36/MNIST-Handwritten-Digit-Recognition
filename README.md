@@ -1,7 +1,7 @@
 # MNIST-Handwritten-Digit-Recognition
 
 ## Initial Setup:
-This application will require an installation of Python 3.8 to run correctly (I recommend installing via a distribution like Anaconda), and it will also require installation of a few python libraries: Tensorflow, PIL (Pillow), Flask, and flask_cors. Make sure that the latest versions of these are installed before moving to the next section (These can all easily be installed using Anaconda as well). You will also need to install npm to be able to run the frontend React app. We recommend that you install the node.js as it comes with npm and is very straightforward to install.
+This application will require an installation of Python 3.8 to run correctly (I recommend installing via a distribution like Anaconda), and it will also require installation of a few python libraries: Tensorflow, PIL (Pillow), Flask, and flask_cors. Make sure that the latest versions of these are installed before moving to the next section (These can all easily be installed using Anaconda or pip as well). You will also need to install npm to be able to run the frontend React app. We recommend that you install the node.js as it comes with npm and is very straightforward to install.
 
 ## To start the backend API:
 Navigate to the API folder of the cloned repo directory in the terminal and run the app.py file with 'python app.py'
