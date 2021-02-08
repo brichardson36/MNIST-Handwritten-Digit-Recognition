@@ -8,6 +8,7 @@ export default function Filestuff (props){
     const canvasRef = useRef(null)
     const contextRef = useRef(null)
     const [isDrawing, setIsDrawing] = useState(false)
+    const [numGuess, setNumGuess] = useState(null)
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -18,9 +19,11 @@ export default function Filestuff (props){
 
         const context = canvas.getContext("2d")
         // context.scale(2,2)
+        context.fillStyle = "black"
+        context.fillRect(0,0, canvas.width, canvas.height);
         context.lineCap = "round"
-        context.strokeStyle = "black"
-        context.lineWidth = 5
+        context.strokeStyle = "white"
+        context.lineWidth = 25
         contextRef.current = context
     }, [])
 
@@ -38,6 +41,8 @@ export default function Filestuff (props){
             </canvas>
             <p/>
             <button onClick = {sendFile}>Send Drawn Image</button>
+            <p>Number Guessed:</p>
+            <p>{numGuess}</p>
         </div>
     );
 
@@ -85,23 +90,24 @@ export default function Filestuff (props){
 
         // }
         let canvas = document.getElementById('canvas');
+
         canvas.toBlob(function(blob) {
             const formData = new FormData();
+            // console.log(blob)
             formData.append('file', blob, 'num.png');
-
             fetch('http://127.0.0.1:5000/predict/', 
             {
-              method: 'POST',
-              body: formData,
+                crossDomain: true,
+                method: 'POST',
+                body: formData,
             })
             .then(response => response.json())
-            .then(response => {
-              console.log(response)
-              this.setState({
-                result: response.result,
-              });
-            });
+            .then(responseTwo => {
+              setNumGuess(responseTwo)
+            })
         })
+
+
         // return post(url, formData, config)
     }
 }
