@@ -83,38 +83,25 @@ export default function Filestuff (props){
 
         //     console.log(formData)
 
-        //     fetch('http://localhost:5000/predict/', {
-        //         method: 'POST',
-        //         body: formData,
-        //     }).then(response => {
-        //         response.json()
-        //     }).then(success => {
-        //         console.log(success)
-        //     }).catch(error =>{
-        //         console.log(error)
-        //     })
         // }
         let canvas = document.getElementById('canvas');
-        canvas.toBlob(function(blob){
+        canvas.toBlob(function(blob) {
             const formData = new FormData();
-            formData.append('file', blob);
+            formData.append('file', blob, 'num.png');
 
-            axios.post("http://localhost:5000/predict/", formData);
-
-            // fetch(apiURL,
-            //     {
-            //         method: 'POST',
-            //         body: formData,
-            //     })
-            //     .then(response => response.json())
-            //     .then(response => {
-            //         console.log(response)
-            //     })
-            //     .catch(error => {
-            //         console.log("error", error)
-            //     })
+            fetch('http://127.0.0.1:5000/predict/', 
+            {
+              method: 'POST',
+              body: formData,
+            })
+            .then(response => response.json())
+            .then(response => {
+              console.log(response)
+              this.setState({
+                result: response.result,
+              });
+            });
         })
-
         // return post(url, formData, config)
     }
 }
