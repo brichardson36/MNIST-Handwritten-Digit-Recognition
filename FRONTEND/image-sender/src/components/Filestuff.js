@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react"
 import "../App.css"
-import axios from "axios";
+import axios, {post } from 'axios';
 
 export default function Filestuff (props){
 
@@ -37,7 +37,7 @@ export default function Filestuff (props){
             >
             </canvas>
             <p/>
-            <button onClick = {downloadImage}>Send Drawn Image</button>
+            <button onClick = {sendFile}>Send Drawn Image</button>
         </div>
     );
 
@@ -66,30 +66,55 @@ export default function Filestuff (props){
         contextRef.current.stroke()
     }
 
-    function downloadImage(){
-        let downloadLink = document.createElement('a');
-        downloadLink.setAttribute('download', 'CanvasAsImage.png');
-        let canvas = document.getElementById('canvas');
-        let dataURL = canvas.toDataURL('image/png');
-        let url = dataURL.replace(/^data:image\/png/,'data:application/octet-stream');
-        downloadLink.setAttribute('href', url);
-        downloadLink.click();
-    }
+    // function downloadImage(){
+    //     let downloadLink = document.createElement('a');
+    //     downloadLink.setAttribute('download', 'CanvasAsImage.png');
+    //     let canvas = document.getElementById('canvas');
+    //     let dataURL = canvas.toDataURL('image/png');
+    //     let url = dataURL.replace(/^data:image\/png/,'data:application/octet-stream');
+    //     downloadLink.setAttribute('href', url);
+    //     downloadLink.click();
+    // }
 
     function sendFile(){
-        if(file !== null){
-            let formData = new FormData()
-            formData.append('file', file)
+        // if(file !== null){
+        //     let formData = new FormData()
+        //     formData.append('file', file)
 
-            axios.post(
-                "http://localhost:5000/predict/",
-                formData
-            ).then(res => {
-                console.log(res.data);
-            })
-            .catch(err => {
-                console.log(err);
-            })
-        }
+        //     console.log(formData)
+
+        //     fetch('http://localhost:5000/predict/', {
+        //         method: 'POST',
+        //         body: formData,
+        //     }).then(response => {
+        //         response.json()
+        //     }).then(success => {
+        //         console.log(success)
+        //     }).catch(error =>{
+        //         console.log(error)
+        //     })
+        // }
+        let canvas = document.getElementById('canvas');
+        canvas.toBlob(function(blob){
+            const formData = new FormData();
+            formData.append('file', blob);
+
+            axios.post("http://localhost:5000/predict/", formData);
+
+            // fetch(apiURL,
+            //     {
+            //         method: 'POST',
+            //         body: formData,
+            //     })
+            //     .then(response => response.json())
+            //     .then(response => {
+            //         console.log(response)
+            //     })
+            //     .catch(error => {
+            //         console.log("error", error)
+            //     })
+        })
+
+        // return post(url, formData, config)
     }
 }
